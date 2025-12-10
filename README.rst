@@ -1,5 +1,5 @@
-colcon-uv
-=========
+colcon-python-project-uv
+========================
 
 An extension for `colcon-core <https://github.com/colcon/colcon-core>`_ to edit a file within a package.
 

@@ -22,7 +22,7 @@ class UVPackageIdentification(PackageIdentificationExtensionPoint):
             '^1.0')
 
     def identify(self, desc):  # noqa: D102
-        if desc.type is not None and desc.type != 'python.uv':
+        if desc.type is not None and desc.type != 'python.project.uv':
             return
 
         spec_file = desc.path / SPEC_NAME
@@ -45,4 +45,4 @@ class UVPackageIdentification(PackageIdentificationExtensionPoint):
             logger.error(msg)
             raise RuntimeError(msg)
         desc.name = name
-        desc.type = 'python.uv'
+        desc.type = 'python.project.uv'

@@ -27,7 +27,7 @@ class UVPackageAugmentation(PEP621PackageAugmentation):
     def augment_package(  # noqa: D102
         self, desc, *, additional_argument_names=None
     ):
-        if desc.type != 'python.uv':
+        if desc.type != 'python.project.uv':
             return
 
         desc.type = 'python.project'
@@ -42,4 +42,4 @@ class UVPackageAugmentation(PEP621PackageAugmentation):
         desc.dependencies['test'].update(
             create_dependency_descriptor(d)
             for d in dependency_groups.get('test') or ())
-        desc.type = 'python.uv'
+        desc.type = 'python.project.uv'
