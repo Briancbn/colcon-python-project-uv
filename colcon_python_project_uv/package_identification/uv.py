@@ -32,13 +32,12 @@ class UVPackageIdentification(PackageIdentificationExtensionPoint):
 
         spec = load_and_cache_spec(desc)
         name = spec.get('project', {}).get('name')
-        uv = spec.get('tool', {}).get('uv')
         build_backend = spec.get('build-system', {}).get('build-backend')
+        logger.info(f'{name}: uv build backend {build_backend}')
         if not name:
             return
 
-        is_python_uv = (uv or build_backend == 'uv_build')
-        if not is_python_uv:
+        if build_backend != 'uv_build':
             return
 
         if desc.name is not None and desc.name != name:

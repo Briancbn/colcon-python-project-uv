@@ -1,7 +1,8 @@
 # Copyright 2025 Chen Bainian
 # Licensed under the Apache License, Version 2.0
 
-from colcon_uv.package_identification.uv import UVPackageIdentification
+from colcon_python_project_uv.package_identification.uv_workspace \
+    import UVWorkspaceIdentification
 from colcon_core.package_discovery import PackageDiscoveryExtensionPoint
 from colcon_core.package_identification import identify
 from colcon_core.package_identification import IgnoreLocationException
@@ -32,7 +33,7 @@ class UVWorkspacePackageDiscovery(PackageDiscoveryExtensionPoint):
         paths = set()
         for extensions_same_prio in identification_extensions.values():
             for extension in extensions_same_prio.values():
-                if isinstance(extension, UVPackageIdentification):
+                if isinstance(extension, UVWorkspaceIdentification):
                     paths.update(extension.workspace_package_paths)
                     extension.workspace_package_paths.clear()
 
