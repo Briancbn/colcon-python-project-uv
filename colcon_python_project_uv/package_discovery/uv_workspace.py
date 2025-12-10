@@ -25,7 +25,7 @@ class UVWorkspacePackageDiscovery(PackageDiscoveryExtensionPoint):
         return None
 
     def discover(self, *, args, identification_extensions):  # noqa: D102
-        # Nested workspaces are not currently supported by cargo. If they ever
+        # Nested workspaces are not currently supported by uv. If they ever
         # are, this code should be updated to run the whole process again until
         # no additional member package paths are found.
 
