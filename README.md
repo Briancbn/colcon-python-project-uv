@@ -6,7 +6,7 @@ Use this prototype
 ```bash
 mkdir -p ~/colcon_extra_ws/src && cd ~/colcon_extra_ws
 git clone https://github.com/colcon/colcon-python-project.git -b devel src/colcon-python-project
-git clone https://github.com/Briancbn/colcon-python-project-uv.git -b feature/bn/add-venv-verb src/colcon-python-project-uv
+git clone https://github.com/Briancbn/colcon-python-project-uv.git -b devel src/colcon-python-project-uv
 colcon build
 . install/local_setup.sh
 ```
@@ -23,14 +23,14 @@ curl -LsSf https://astral.sh/uv/install.sh | sh
 Create a colcon workspace
 
 ```bash
-mkdir colcon_ws/src -p
-cd ~/colcon_ws
+mkdir ~/colcon_ws/src -p
 ```
 
-Download your python packages
+Download your python packages into `colcon_ws/src`
 
 First install additional dependencies
 ```bash
+cd ~/colcon_ws
 colcon venv sync
 ```
 
