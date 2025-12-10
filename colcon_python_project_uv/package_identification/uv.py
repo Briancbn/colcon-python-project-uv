@@ -20,6 +20,7 @@ class UVPackageIdentification(PackageIdentificationExtensionPoint):
         satisfies_version(
             PackageIdentificationExtensionPoint.EXTENSION_POINT_VERSION,
             '^1.0')
+        self.workspace_package_paths = set()
 
     def identify(self, desc):  # noqa: D102
         if desc.type is not None and desc.type != 'python.project.uv':

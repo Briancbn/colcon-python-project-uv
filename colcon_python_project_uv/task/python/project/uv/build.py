@@ -69,7 +69,7 @@ class UVBuildTask(TaskExtensionPoint):
 
         self.progress('build')
         rc = await run(
-            self.context, cmd, cwd=pkg.path, env=env, capture_output=True)
+            self.context, cmd, cwd=pkg.path, env=env, capture_output=True, shell=True)
         if rc and rc.returncode:
             return rc.returncode
 
