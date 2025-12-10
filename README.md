@@ -1,8 +1,20 @@
 # colcon-python-project-uv
 
+THIS IS A PROTOTYPE!!
+
+This package provides the following functions
+- extend `colcon-python-project` to use `uv` executable instead of PyPI `uv_build` to build colcon packages
+- add support for `UV` workspace.
+- add a `venv` verb to sync non-local PyPI dependency using `uv`
+
 ## Installation
 
-Use this prototype
+Install additional python dependencies
+```bash
+sudo apt install python3-tomli-w
+```
+
+Install this prototype from source
 ```bash
 mkdir -p ~/colcon_extra_ws/src && cd ~/colcon_extra_ws
 git clone https://github.com/colcon/colcon-python-project.git -b devel src/colcon-python-project
@@ -28,7 +40,7 @@ mkdir ~/colcon_ws/src -p
 
 Download your python packages into `colcon_ws/src`
 
-First install additional dependencies
+First install additional PyPI dependencies to virtual environment
 ```bash
 cd ~/colcon_ws
 colcon venv sync
@@ -42,4 +54,33 @@ colcon build
 Source the workspace
 ```bash
 . install/setup.bash
+```
+
+## Explanation
+
+If the `pyproject.toml`'s `build-system.build-backend` is not `uv_build`, colcon will fallback to using `colcon-python-project` to build.
+
+To check this, run `colcon list`
+
+```
+my_poetry_package	  src/my_poetry_package	   (python.project)       <-- not using UV
+my_uv_package       src/my_uv_package	     (python.project.uv)
+```
+
+`colcon venv sync` only install dependencies that cannot found locally within the workspace.
+After success, `install/.uv_python_project_venv/.venv` is created.
+
+Upon a successful venv creation. Run `colcon build` AFTERWARDS. Additional environment hooks will be added to prepend the venv folder to the `PYTHONPATH`.
+
+When you source `setup.bash` again, the virtual environment will be automatically enabled.
+To check
+
+```bash
+. install/setup.bash
+echo $PYTHONPATH | sed "s/:/\n/g"
+```
+
+You should be able to find a line like the following
+```
+<...>/install/.uv_python_project_venv/.venv/lib/python3.x/site-packages
 ```
