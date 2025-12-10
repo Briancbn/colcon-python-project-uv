@@ -14,7 +14,8 @@ from colcon_core.plugin_system import satisfies_version
 from colcon_core.shell import get_command_environment
 from colcon_core.task import run
 from colcon_core.task import TaskExtensionPoint
-from colcon_python_project_uv.task.python.project.uv import UV_EXECUTABLE
+from colcon_python_project_uv.task.python.project.uv \
+    import UV_EXECUTABLE
 from colcon_python_project.wheel import install_wheel
 
 logger = colcon_logger.getChild(__name__)
@@ -69,7 +70,7 @@ class UVBuildTask(TaskExtensionPoint):
 
         self.progress('build')
         rc = await run(
-            self.context, cmd, cwd=pkg.path, env=env, capture_output=True, shell=True)
+            self.context, cmd, cwd=pkg.path, env=env, capture_output=True)
         if rc and rc.returncode:
             return rc.returncode
 
