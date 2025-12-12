@@ -33,11 +33,13 @@ def get_uv_venv_metadata(args):
         },
         "tool": {
             "uv": {
-                "sources": {}
+                "sources": {},
+                "override-dependencies": [],
             }
         }
     }
     doc_deps = doc["project"]["dependencies"]
+    override_deps = doc["tool"]["uv"]["override-dependencies"]
     uv_sources = doc["tool"]["uv"]["sources"]
     for desc in descriptors:
         spec = desc.metadata.get('python_project_spec')
@@ -53,6 +55,7 @@ def get_uv_venv_metadata(args):
         # TODO(Briancbn): better validation
         doc_deps.append(desc.name)
         uv_sources.update({ desc.name: {"path": str(desc.path.absolute()), "editable": True} })
+        override_deps.append(f"{desc.name} @ file://{str(desc.path.absolute())}")
 
     return doc
 
