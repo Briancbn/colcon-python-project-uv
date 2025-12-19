@@ -83,7 +83,8 @@ def create_activate_script(*, install_base):
     if not python_lib_path.exists():
         return None
 
-    return create_activate_script_sh(prefix_path, venv_path, python_lib_path)
+    return create_activate_script_sh(
+        prefix_path.absolute(), venv_path.absolute(), python_lib_path.absolute())
 
 
 def prepare_uv_venv(args):
