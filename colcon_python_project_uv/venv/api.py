@@ -99,10 +99,41 @@ def _uv_sync(install_base):
     return process.returncode
 
 
+def _uv_export(install_base, output_path):
+    if UV_EXECUTABLE is None:
+        raise RuntimeError("Could not find 'uv' executable")
+
+    _output_path = Path(output_path).absolute()
+    cmd = [
+        UV_EXECUTABLE,
+        'export',
+        '--no-emit-local',
+        '-q',
+        '-o',
+        str(_output_path),
+    ]
+    cwd = Path(install_base) / get_uv_venv_path()
+
+    process = Popen(cmd, cwd=cwd,
+                               shell=(os.name == 'nt'))
+    while process.returncode is None:
+        try:
+            process.communicate()
+        except KeyboardInterrupt:
+            pass
+    return process.returncode
+
 def sync_uv_venv(args):
     prepare_uv_venv(args)
 
     rc = _uv_sync(args.install_base)
 
+    if rc:
+        return rc
+
+def export_uv_venv(args):
+    prepare_uv_venv(args)
+
+    rc = _uv_export(args.install_base, args.output)
     if rc:
         return rc
