@@ -56,6 +56,16 @@ Source the workspace
 . install/setup.bash
 ```
 
+Activate the virtual environment containing the additional PyPI dependencies.
+```bash
+. install/activate.sh
+```
+
+Deactivate the python virtual environment
+```bash
+deactivate_all
+```
+
 ## Explanation
 
 If the `pyproject.toml`'s `build-system.build-backend` is not `uv_build`, colcon will fallback to using `colcon-python-project` to build.
@@ -68,19 +78,21 @@ my_uv_package       src/my_uv_package	     (python.project.uv)
 ```
 
 `colcon venv sync` only install dependencies that cannot found locally within the workspace.
-After success, `install/.uv_python_project_venv/.venv` is created.
-
-Upon a successful venv creation. Run `colcon build` AFTERWARDS. Additional environment hooks will be added to prepend the venv folder to the `PYTHONPATH`.
-
-When you source `setup.bash` again, the virtual environment will be automatically enabled.
-To check
+After success, `install/.uv_python_project_venv/.venv` is created, together with a custom activation script.
 
 ```bash
 . install/setup.bash
+. install/activate.sh
 echo $PYTHONPATH | sed "s/:/\n/g"
 ```
 
 You should be able to find a line like the following
 ```
 <...>/install/.uv_python_project_venv/.venv/lib/python3.x/site-packages
+```
+
+To deactivate, and check the venv path is removed
+```bash
+deactivate_all
+echo $PYTHONPATH | sed "s/:/\n/g"
 ```
