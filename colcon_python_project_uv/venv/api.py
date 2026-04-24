@@ -7,10 +7,13 @@ from subprocess import Popen
 from colcon_core.package_discovery import discover_packages
 from colcon_core.package_identification \
     import get_package_identification_extensions
-
+from colcon_core.python_install_path import get_python_install_path
 from colcon_python_project_uv.task.python.project.uv import UV_EXECUTABLE
 from colcon_python_project_uv.venv.location import get_uv_venv_path
+from colcon_python_project_uv.venv.location import get_venv_path
 from colcon_python_project_uv.venv.location import create_uv_venv_path
+from colcon_python_project_uv.shell.sh import create_activate_script \
+    as create_activate_script_sh
 import tomli_w
 
 UV_VENV_PYTHON_VERSION = '.python-version'
@@ -73,6 +76,17 @@ def dump_uv_venv_metadata(metadata, *, install_base):
             UV_VENV_SPEC_HEADER.decode('utf-8'),
             PYTHON_VERSION])
 
+def create_activate_script(*, install_base):
+    prefix_path = Path(install_base)
+    venv_path = Path(install_base) / get_venv_path()
+    python_lib_path = get_python_install_path('purelib', {'base': venv_path})
+    if not python_lib_path.exists():
+        return None
+
+    return create_activate_script_sh(
+        prefix_path.absolute(), venv_path.absolute(), python_lib_path.absolute())
+
+
 def prepare_uv_venv(args):
     metadata = get_uv_venv_metadata(args)
     dump_uv_venv_metadata(metadata, install_base=args.install_base)
@@ -103,6 +117,7 @@ def sync_uv_venv(args):
     prepare_uv_venv(args)
 
     rc = _uv_sync(args.install_base)
-
     if rc:
         return rc
+
+    create_activate_script(install_base=args.install_base)
