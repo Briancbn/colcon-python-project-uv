@@ -11,7 +11,7 @@ This package provides the following functions
 
 Install additional python dependencies
 ```bash
-sudo apt install python3-tomli-w
+sudo apt install python3-tomli-w python3-tomli
 ```
 
 Install this prototype from source
